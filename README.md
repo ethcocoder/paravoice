@@ -2,6 +2,8 @@
 
 Reproducible research code for evaluating and fine-tuning multilingual Whisper for Amharic speech from Addis Ababa, Gojjam, Gonder, Shewa, and Wello varieties.
 
+The training path uses `WhisperProcessor`, `WhisperForConditionalGeneration`, and `Seq2SeqTrainer` from Hugging Face Transformers, which is the supported fine-tuning path. OpenAI's [`whisper`](https://github.com/openai/whisper) repository is the upstream reference implementation for Whisper inference and preprocessing, not a complete fine-tuning trainer.
+
 > **Research status:** this repository implements the workflow; it does not claim that the source data has passed native-speaker review or that all licenses permit redistribution. The Gojjam license must be clarified before public model release.
 
 ## What is included

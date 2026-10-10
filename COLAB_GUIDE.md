@@ -49,7 +49,7 @@ Use the archive hash from the roadmap as an expected value. If your archive is d
   --expected-sha256 433982aa7bc2f504bbffe6a38d4cbb63f93a17cd9fd35d8442276ef980afe2d3
 ```
 
-Inspect `audit/report.json`, `audit/rows.csv`, and `audit/issues.json`. Phase 1 is not signed off until a native-speaker sample and Gojjam license status are recorded.
+Inspect `audit/report.json`, `audit/rows.jsonl`, and `audit/issues.json`. Phase 1 is not signed off until a native-speaker sample and Gojjam license status are recorded.
 
 ## Phase 2 — native review
 
@@ -57,7 +57,7 @@ Generate a stratified sample without editing the source:
 
 ```python
 !python scripts/review_sample.py \
-  --audit /content/asr-work/audit/rows.csv \
+  --audit /content/asr-work/audit/rows.jsonl \
   --output /content/asr-work/reviews/sample.csv \
   --n-per-dialect 30 --seed 42
 ```
@@ -71,13 +71,13 @@ After review decisions exist:
 ```python
 !python scripts/prepare_dataset.py \
   --source /content/asr-work/source/extracted \
-  --audit /content/asr-work/audit/rows.csv \
+  --audit /content/asr-work/audit/rows.jsonl \
   --reviews /content/asr-work/reviews/decisions.csv \
   --output /content/asr-work/derived \
   --sample-rate 16000 --max-seconds 30
 ```
 
-The source remains immutable. Inspect `derived/manifest.jsonl`, `derived/issues.json`, and `derived/provenance.json`. Do not use `--allow-unreviewed` for a release run.
+The source remains immutable. The preparation step writes mono 16 kHz WAV files and currently excludes clips longer than 30 seconds until transcript-aligned segmentation is reviewed; it never truncates audio or duplicates a full transcript across chunks. Inspect `derived/manifest.jsonl`, `derived/provenance.json`, and the retained-row counts. Do not use `--allow-unreviewed` for a release run.
 
 ## Phase 4 — benchmark split
 
