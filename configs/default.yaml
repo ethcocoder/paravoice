@@ -1,0 +1,23 @@
+seed: 42
+source:
+  expected_sha256: 433982aa7bc2f504bbffe6a38d4cbb63f93a17cd9fd35d8442276ef980afe2d3
+  sample_rate: 16000
+  max_seconds: 30
+model:
+  name: openai/whisper-small
+  language: am
+  task: transcribe
+  sampling_rate: 16000
+splits:
+  validation_fraction: 0.10
+  test_fraction: 0.20
+  speaker_scope: dialect_local
+training:
+  learning_rate: 0.000001
+  warmup_steps: 100
+  train_batch_size: 2
+  eval_batch_size: 2
+  gradient_accumulation_steps: 8
+  max_steps: 1000
+  fp16: true
+  gradient_checkpointing: true

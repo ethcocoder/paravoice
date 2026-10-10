@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.DS_Store
+.ipynb_checkpoints/
+
+# Dataset and generated artifacts
+*.zip
+*.wav
+*.flac
+*.mp3
+/content/
+data/
+artifacts/
+runs/
+checkpoints/
+models/
+
+# Generated manifests are allowed only when intentionally reviewed
+*.parquet

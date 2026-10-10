@@ -1,0 +1,1 @@
+The installed console scripts are the supported entry points. For a source checkout, use `python -m amharic_asr.audit`, `python -m amharic_asr.review`, `python -m amharic_asr.prepare`, `python -m amharic_asr.splits`, `python -m amharic_asr.baseline`, `python -m amharic_asr.train`, and `python -m amharic_asr.infer`.

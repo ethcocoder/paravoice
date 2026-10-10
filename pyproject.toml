@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "five-dialect-amharic-asr"
+version = "0.1.0"
+description = "Reproducible audit, benchmark, and Whisper fine-tuning pipeline for five Amharic dialect collections"
+requires-python = ">=3.10"
+dependencies = [
+  "datasets>=2.18,<4",
+  "evaluate>=0.4",
+  "librosa>=0.10",
+  "numpy>=1.24",
+  "pandas>=2.0",
+  "pyarrow>=14",
+  "PyYAML>=6",
+  "soundfile>=0.12",
+  "torch>=2.1",
+  "transformers>=4.40,<5",
+  "jiwer>=3.0",
+  "scikit-learn>=1.3",
+]
+
+[project.scripts]
+asr-audit = "amharic_asr.audit:main"
+asr-review-sample = "amharic_asr.review:main"
+asr-prepare = "amharic_asr.prepare:main"
+asr-splits = "amharic_asr.splits:main"
+asr-baseline = "amharic_asr.baseline:main"
+asr-train = "amharic_asr.train:main"
+asr-infer = "amharic_asr.infer:main"
+asr-smoke-train = "amharic_asr.train:main"
+asr-evaluate-model = "amharic_asr.baseline:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
