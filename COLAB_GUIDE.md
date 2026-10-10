@@ -14,6 +14,8 @@ Use a GPU runtime (`Runtime > Change runtime type > T4 GPU` or better). Clone th
 !nvidia-smi
 ```
 
+These commands are **Colab notebook syntax**. If you are inside a normal Bash shell, remove the leading `!`: use `pip install -q -e .` and `nvidia-smi`, not `!nvidia-smi`. The dependency-conflict messages that Colab may print after the editable install are warnings from preinstalled packages; the install is successful when it ends with `Successfully built five-dialect-amharic-asr` and the CLI checks work.
+
 The branch check must print `v2`. If it prints another branch, stop, remove the checkout, and rerun the clone cell. To verify the exact remote and commit, run:
 
 ```python
@@ -29,7 +31,23 @@ for p in ["/content/asr-work/source", "/content/asr-work/derived", "/content/asr
     Path(p).mkdir(parents=True, exist_ok=True)
 ```
 
-Upload or mount the verified source archive. Do not put it in the repository:
+### Option A — clone the verified source archive directly from Hugging Face
+
+The dataset repository contains the 15.84 GB `leyu_all_datasets.zip` file through Git LFS. Make sure the Colab runtime has enough disk space before starting. This clone downloads the source outside the code repository:
+
+```python
+!apt-get -qq update && apt-get -qq install -y git-lfs
+!git lfs install
+!git clone https://huggingface.co/datasets/paradoxquantum/paradox-amharic-data /content/asr-work/source/paradox-amharic-data
+!git -C /content/asr-work/source/paradox-amharic-data lfs pull
+!ls -lh /content/asr-work/source/paradox-amharic-data/leyu_all_datasets.zip
+```
+
+The expected archive hash is `433982aa7bc2f504bbffe6a38d4cbb63f93a17cd9fd35d8442276ef980afe2d3`, matching the roadmap and the Hugging Face LFS object. If the hash does not match, stop and investigate instead of training.
+
+### Option B — upload or mount an existing verified archive
+
+Do not put the archive in the Git repository:
 
 ```python
 from google.colab import drive
@@ -44,10 +62,12 @@ Use the archive hash from the roadmap as an expected value. If your archive is d
 
 ```python
 !python scripts/audit_dataset.py \
-  --source /content/asr-work/source/leyu_all_datasets.zip \
+  --source /content/asr-work/source/paradox-amharic-data/leyu_all_datasets.zip \
   --output /content/asr-work/audit \
   --expected-sha256 433982aa7bc2f504bbffe6a38d4cbb63f93a17cd9fd35d8442276ef980afe2d3
 ```
+
+For Option B, change `--source` to `/content/asr-work/source/leyu_all_datasets.zip`.
 
 Inspect `audit/report.json`, `audit/rows.jsonl`, and `audit/issues.json`. Phase 1 is not signed off until a native-speaker sample and Gojjam license status are recorded.
 
@@ -70,7 +90,7 @@ After review decisions exist:
 
 ```python
 !python scripts/prepare_dataset.py \
-  --source /content/asr-work/source/extracted \
+  --source /content/asr-work/audit/extracted \
   --audit /content/asr-work/audit/rows.jsonl \
   --reviews /content/asr-work/reviews/decisions.csv \
   --output /content/asr-work/derived \

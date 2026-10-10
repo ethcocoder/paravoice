@@ -41,6 +41,17 @@ The Colab workflow must use the `v2` branch. The `--single-branch` option preven
 
 The pipeline expects either the verified ZIP from the roadmap or a directory of Parquet shards. Set paths in `configs/default.yaml` or pass command-line overrides. Never commit source audio, credentials, Hugging Face tokens, or generated model weights.
 
+For a Colab run, the verified source can be cloned directly from Hugging Face with Git LFS:
+
+```bash
+apt-get -qq update && apt-get -qq install -y git-lfs
+git lfs install
+git clone https://huggingface.co/datasets/paradoxquantum/paradox-amharic-data /content/asr-work/source/paradox-amharic-data
+git -C /content/asr-work/source/paradox-amharic-data lfs pull
+```
+
+The archive is about 15.84 GB. Verify SHA-256 against the roadmap before processing. In a Colab notebook, prefix shell commands with `!`; in a normal Bash shell, do not use `!`.
+
 ## Ten-phase execution order
 
 1. `audit_dataset.py` — verify and inventory the immutable source.
