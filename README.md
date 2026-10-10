@@ -29,11 +29,13 @@ COLAB_GUIDE.md                       clone-to-finish Colab instructions
 ## Quick start
 
 ```bash
-git clone -b v2 https://github.com/ethcocoder/five-dialect-amharic-asr.git
-cd five-dialect-amharic-asr
+git clone --branch v2 --single-branch https://github.com/ethcocoder/paravoice.git
+cd paravoice
 pip install -e .
 python scripts/audit_dataset.py --help
 ```
+
+The Colab workflow must use the `v2` branch. The `--single-branch` option prevents accidentally running an older or unrelated branch.
 
 The pipeline expects either the verified ZIP from the roadmap or a directory of Parquet shards. Set paths in `configs/default.yaml` or pass command-line overrides. Never commit source audio, credentials, Hugging Face tokens, or generated model weights.
 

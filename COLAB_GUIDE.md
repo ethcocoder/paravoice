@@ -4,13 +4,21 @@ This guide is the operational path from a fresh Colab runtime to a scoped Phase 
 
 ## 0. Runtime and project setup
 
-Use a GPU runtime (`Runtime > Change runtime type > T4 GPU` or better). Then run:
+Use a GPU runtime (`Runtime > Change runtime type > T4 GPU` or better). Clone the required `v2` branch of the public repository; do not omit `--branch v2`:
 
 ```python
-!git clone -b v2 https://github.com/ethcocoder/five-dialect-amharic-asr.git
-%cd five-dialect-amharic-asr
+!git clone --branch v2 --single-branch https://github.com/ethcocoder/paravoice.git
+%cd paravoice
+!git branch --show-current
 !pip install -q -e .
 !nvidia-smi
+```
+
+The branch check must print `v2`. If it prints another branch, stop, remove the checkout, and rerun the clone cell. To verify the exact remote and commit, run:
+
+```python
+!git remote -v
+!git log -1 --oneline
 ```
 
 Create working directories outside Git:
